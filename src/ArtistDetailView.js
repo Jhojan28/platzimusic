@@ -49,10 +49,13 @@ export default class ArtistDetailView extends Component<{}> {
 
   handleSend = () => {
     const { text } = this.state
+    const { uid, photoURL } = firebaseAuth.currentUser
     const getArtistCommentRef = this.getArtistCommentRef()
     const newCommentRef = getArtistCommentRef.push()
     newCommentRef.set({
-      text
+      text,
+      userPhoto: photoURL,
+      uid
     })
     this.setState({text:''})
   }
@@ -70,7 +73,6 @@ export default class ArtistDetailView extends Component<{}> {
     return (
       <View style={styles.container}>
         <ArtistBox artist={artist}/>
-        <Text style={styles.header}>Comentarios</Text>
         <CommentList comments={comments} />
         <View style={styles.inputContainer}>
           <TextInput 

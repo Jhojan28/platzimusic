@@ -8,7 +8,8 @@ import React, { Component } from 'react';
 import {
   Platform,
   StyleSheet,
-  View
+  View,
+  ActivityIndicator
 } from 'react-native';
 import ArtistBox from './ArtisBox'
 import ArtistList from './ArtistList'
@@ -16,7 +17,7 @@ import { getArtist } from './apiClient'
 
 export default class HomeView extends Component<{}> {
   state = {
-    artists: []
+    artists: null
   }
 
   async componentDidMount () {
@@ -27,7 +28,8 @@ export default class HomeView extends Component<{}> {
     const artists = this.state.artists
     return (
       <View style={styles.container}>
-        <ArtistList artists={artists}/>
+        { !artists && <ActivityIndicator size="large"/> }
+        { artists && <ArtistList artists={artists}/> }        
       </View>
     );
   }
@@ -40,6 +42,9 @@ const styles = StyleSheet.create({
    // justifyContent: 'space-around', //Alinea elementos con respecto al eje
    // alignItems: 'center', //Alinea elementos de manera contraria al eje
     backgroundColor: 'lightgrey',
-    paddingTop: 50
+    paddingTop: Platform.select({
+      ios: 30,
+      android: 10
+    })
   }
 });
